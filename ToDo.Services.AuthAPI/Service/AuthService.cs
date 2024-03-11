@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using ToDo.Services.AuthAPI.Data;
 using ToDo.Services.AuthAPI.Model;
 using ToDo.Services.AuthAPI.Models.Dto;
@@ -21,9 +22,37 @@ namespace ToDo.Services.AuthAPI.Service
             _roleManager = roleManager;
         }
 
-        public Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
+        public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
-            throw new NotImplementedException();
+
+            ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDto.Username.ToLower());
+            bool isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
+            if (user == null || !isValid)
+            {
+                return new LoginResponseDto()
+                {
+                    User = null,
+                    Token = ""
+                };
+            }
+
+            UserDto userDto = new()
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            // if user was found, generated JWT token
+
+            LoginResponseDto loginResponseDto = new()
+            {
+                User = userDto,
+                Token = ""
+            };
+
+            return loginResponseDto;
         }
 
         public async Task<string> Register(RegistrationRequestDto registrationRequestDto)
