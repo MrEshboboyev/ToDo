@@ -1,7 +1,16 @@
+using ToDo.Web.Utility;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// configure HttpContextAccessor 
+builder.Services.AddHttpContextAccessor();
+// configure HttpClient
+builder.Services.AddHttpClient();
+// configure AuthAPIBase
+SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 
 var app = builder.Build();
 
