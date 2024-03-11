@@ -26,9 +26,35 @@ namespace ToDo.Services.AuthAPI.Service
             throw new NotImplementedException();
         }
 
-        public Task<string> Register(RegistrationRequestDto registrationRequestDto)
+        public async Task<string> Register(RegistrationRequestDto registrationRequestDto)
         {
-            throw new NotImplementedException();
+            ApplicationUser user = new()
+            {
+                Email = registrationRequestDto.Email,
+                PhoneNumber = registrationRequestDto.PhoneNumber,
+                Name = registrationRequestDto.Name,
+                NormalizedEmail = registrationRequestDto.Email.ToUpper(),
+                Nickname = registrationRequestDto.Nickname
+            };
+
+            try
+            {
+                var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
+                if (result.Succeeded)
+                {
+                    return "";
+                }
+                else
+                {
+                    return result.Errors.First().Description;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return "Error Encountered";
         }
     }
 }
