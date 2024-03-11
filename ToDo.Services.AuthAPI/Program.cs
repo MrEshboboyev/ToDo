@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ToDo.Services.AuthAPI.Data;
 using ToDo.Services.AuthAPI.Models;
+using ToDo.Services.AuthAPI.Service;
+using ToDo.Services.AuthAPI.Service.IService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 // configure JwtOptions 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
+
+// lifetime service
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
