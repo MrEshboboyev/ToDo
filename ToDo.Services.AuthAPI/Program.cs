@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToDo.Services.AuthAPI.Data;
+using ToDo.Services.AuthAPI.Model;
 using ToDo.Services.AuthAPI.Models;
 using ToDo.Services.AuthAPI.Service;
 using ToDo.Services.AuthAPI.Service.IService;
@@ -13,6 +15,10 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("AuthConnection"));
 });
+
+// configure Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 // configure JwtOptions 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
@@ -35,7 +41,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

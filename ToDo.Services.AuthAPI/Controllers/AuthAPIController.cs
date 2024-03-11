@@ -25,9 +25,16 @@ namespace ToDo.Services.AuthAPI.Controllers
         }
         
         [HttpPost("register")]
-        public async Task<IActionResult> Register()
+        public async Task<IActionResult> Register(RegistrationRequestDto model)
         {
-            return Ok();
+            var result = await _authService.Register(model);
+            if(!string.IsNullOrEmpty(result))
+            {
+                _response.IsSuccess = false;
+                _response.Message = result;
+            }
+
+            return Ok(_response);
         }
     }
 }

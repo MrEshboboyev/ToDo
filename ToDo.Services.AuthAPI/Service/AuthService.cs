@@ -31,6 +31,7 @@ namespace ToDo.Services.AuthAPI.Service
             ApplicationUser user = new()
             {
                 Email = registrationRequestDto.Email,
+                UserName = registrationRequestDto.Email,
                 PhoneNumber = registrationRequestDto.PhoneNumber,
                 Name = registrationRequestDto.Name,
                 NormalizedEmail = registrationRequestDto.Email.ToUpper(),
