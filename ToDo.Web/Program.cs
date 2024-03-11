@@ -11,11 +11,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 // configure HttpClient
 builder.Services.AddHttpClient();
+// configure HttpClient for AuthService
+builder.Services.AddHttpClient<IAuthService, AuthService>();
 // configure AuthAPIBase
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 
 // add service lifetime for services
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
