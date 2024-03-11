@@ -18,6 +18,7 @@ namespace ToDo.Services.AuthAPI.Controllers
             _response = new();
         }
 
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
@@ -43,6 +44,19 @@ namespace ToDo.Services.AuthAPI.Controllers
                 _response.Message = result;
             }
 
+            return Ok(_response);
+        }
+
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole(RegistrationRequestDto model)
+        {
+            bool assignRoleSuccessful = await _authService.AssignRole(model.Email, model.Role.ToUpper());
+            if(!assignRoleSuccessful)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Error encountered";
+                return BadRequest(_response);
+            }
             return Ok(_response);
         }
     }
