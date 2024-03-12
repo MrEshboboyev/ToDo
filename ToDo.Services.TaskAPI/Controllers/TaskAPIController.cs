@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Services.TaskAPI.Data;
@@ -9,6 +10,7 @@ namespace ToDo.Services.TaskAPI.Controllers
 {
     [Route("api/task")]
     [ApiController]
+    [Authorize]
     public class TaskAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
