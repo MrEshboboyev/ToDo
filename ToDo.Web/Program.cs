@@ -14,12 +14,15 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 // configure HttpClient for AuthService
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+builder.Services.AddHttpClient<ITaskService, TaskService>();
 // configure AuthAPIBase
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
+SD.TaskAPIBase = builder.Configuration["ServiceUrls:TaskAPI"];
 
 // add service lifetime for services
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 // configure Cookie services
