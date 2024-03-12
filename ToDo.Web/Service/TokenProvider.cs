@@ -1,4 +1,6 @@
-﻿using ToDo.Web.Service.IService;
+﻿using Newtonsoft.Json.Linq;
+using ToDo.Web.Service.IService;
+using ToDo.Web.Utility;
 
 namespace ToDo.Web.Service
 {
@@ -13,17 +15,21 @@ namespace ToDo.Web.Service
 
         public void ClearToken()
         {
-            throw new NotImplementedException();
+            _httpContextAccessor.HttpContext?.Response.Cookies.Delete(SD.TokenCookie);
         }
 
         public string? GetToken()
         {
-            throw new NotImplementedException();
+            string? token = null;
+
+            bool? hasToken = _httpContextAccessor.HttpContext?.Request.Cookies.TryGetValue(SD.TokenCookie, out token);
+
+            return hasToken is true ? token : null;
         }
 
         public void SetToken(string token)
         {
-            throw new NotImplementedException();
+            _httpContextAccessor.HttpContext?.Response.Cookies.Append(SD.TokenCookie, token);
         }
     }
 }
