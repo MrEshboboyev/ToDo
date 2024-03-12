@@ -66,7 +66,8 @@ namespace ToDo.Services.AuthAPI.Service
             };
 
             // if user was found, generated JWT token
-            var token = _jwtTokenGenerator.GenerateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _jwtTokenGenerator.GenerateJwtToken(user, roles);
 
             LoginResponseDto loginResponseDto = new()
             {
